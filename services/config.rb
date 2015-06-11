@@ -72,7 +72,6 @@ coreo_aws_ec2_instance "${CONSUL_NAME}" do
   image_id "${CONSUL_AMI}"
   size "${CONSUL_SIZE}"
   security_groups ["${CONSUL_SERVER_SG_NAME}"]
-  associate_public_ip true
   role "${CONSUL_NAME}"
   ssh_key "${CONSUL_KEY}"
 end
