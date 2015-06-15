@@ -33,6 +33,18 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}" do
             :protocol => :tcp,
             :ports => [22],
             :cidrs => ${CONSUL_INGRESS_CIDRS}
+          },
+          { 
+            :direction => :egress,
+            :protocol => :udp,
+            :ports => ['0..65535'],
+            :cidrs => ['0.0.0.0/0']
+          },
+          { 
+            :direction => :egress,
+            :protocol => :tcp,
+            :ports => ['0..65535'],
+            :cidrs => ['0.0.0.0/0']
           }
     ]
 end
