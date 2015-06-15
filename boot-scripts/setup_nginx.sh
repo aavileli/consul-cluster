@@ -2,7 +2,7 @@
 
 mkdir -p /etc/nginx/
 
-cat <<EOF > /etc/nginx/nginx.conf
+cat <<"EOF" > /etc/nginx/nginx.conf
 user  nginx;
 worker_processes  1;
 error_log  /var/log/nginx/error.log;
