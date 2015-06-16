@@ -19,8 +19,8 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
           { 
             :direction => :ingress,
             :protocol => :tcp,
-            :ports => [1199],
-            :cidrs => ${VPN_ACCESS_CIDRS},
+            :ports => [80],
+            :cidrs => ${CONSUL_INGRESS_CIDRS},
           },{ 
             :direction => :egress,
             :protocol => :tcp,
@@ -38,14 +38,14 @@ coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
   security_groups ["${CONSUL_SERVER_SG_NAME}-elb"]
   listeners [
              {
-               :elb_protocol => 'tcp', 
-               :elb_port => 8500, 
-               :to_protocol => 'tcp', 
+               :elb_protocol => 'http', 
+               :elb_port => 80,
+               :to_protocol => 'http', 
                :to_port => 8500
              }
             ]
   health_check_protocol 'http'
-  health_check_path "/ui"
+  health_check_path "/v1/catalog/datacenters"
   health_check_port "8500"
   health_check_timeout 10
   health_check_interval 60
