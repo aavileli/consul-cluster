@@ -17,11 +17,6 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
   vpc "${VPC_NAME}"
   allows [ 
           { 
-            :direction => :ingress,
-            :protocol => :tcp,
-            :ports => [80],
-            :cidrs => ${CONSUL_INGRESS_CIDRS},
-          },{ 
             :direction => :egress,
             :protocol => :tcp,
             :ports => ["0..65535"],
@@ -32,9 +27,9 @@ end
 
 coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
   action :sustain
-  type "private"
+  type "public"
   vpc "${VPC_NAME}"
-  subnet "${PRIVATE_SUBNET_NAME}"
+  subnet "${PUBLIC_SUBNET_NAME}"
   security_groups ["${CONSUL_SERVER_SG_NAME}-elb"]
   listeners [
              {
