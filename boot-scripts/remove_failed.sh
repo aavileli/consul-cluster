@@ -1,6 +1,6 @@
 #!/bin/bash
 
-scrpt="/opt/remove_failed.sh"
+script="/opt/remove_failed.sh"
 
 cat <<"EOF" > $script
 #!/bin/bash
