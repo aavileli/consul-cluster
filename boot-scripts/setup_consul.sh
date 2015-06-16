@@ -64,7 +64,7 @@ for ip in $addresses; do
 	if [ -n "$joinArr" ]; then
 	    joinArr="$joinArr ,"
 	fi
-	joinArr="\"$ip\""
+	joinArr="$joinArr \"$ip\""
     fi
 done
 
