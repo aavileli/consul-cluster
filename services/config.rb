@@ -65,6 +65,12 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}" do
   description "consul server security group"
   vpc "${VPC_NAME}"
   allows [ 
+         { 
+            :direction => :ingress,
+            :protocol => :tcp,
+            :ports => [8500],
+            :groups => ["${CONSUL_SERVER_SG_NAME}-elb"],
+          },
           { 
             :direction => :ingress,
             :protocol => :tcp,
