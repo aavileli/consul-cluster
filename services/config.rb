@@ -33,9 +33,9 @@ end
 
 coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
   action :sustain
-  type "public"
+  type "internal"
   vpc "${VPC_NAME}"
-  subnet "${PUBLIC_SUBNET_NAME}"
+  subnet "${PRIVATE_SUBNET_NAME}"
   security_groups ["${CONSUL_SERVER_SG_NAME}-elb"]
   listeners [
              {
