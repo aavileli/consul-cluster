@@ -17,8 +17,8 @@ sleep "${CONSUL_FAILURE_GRACE_PERIOD_IN_SECONDS:-60}"
 
 for node in $failed_consul_nodes; do
     ## if they are still failed, kill them
-    failed_node_address="$(/bin/consul members | grep $node | grep failed | awk '{print $2}')"
+    failed_node_name="$(/bin/consul members | grep $node | grep failed | awk '{print $1}')"
     if [ -n "$failed_node_address" ]; then
-        /bin/consul force-leave "$(echo $failed_node_address | awk -F':' '{print $1}'):8400"
+        /bin/consul force-leave "$failed_node_address"
     fi
 done
