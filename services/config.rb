@@ -66,6 +66,7 @@ coreo_aws_iam_policy "${CONSUL_NAME}" do
           "ec2:DescribeAvailabilityZones",
           "ec2:DescribeInstanceAttribute",
           "ec2:DescribeInstanceStatus",
+          "ec2:DescribeInstances",
           "ec2:DescribeTags"
       ]
     }

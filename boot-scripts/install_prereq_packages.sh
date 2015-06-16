@@ -1,3 +1,3 @@
 #!/bin/sh
 
-yum install -y git nginx httpd-devel
+yum install -y git httpd-devel unzip dnsmasq wget

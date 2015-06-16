@@ -6,7 +6,5 @@
 
 script-order:
    - install_prereq_packages.sh
-   - setup_nginx.sh
-   - start_prereqs.sh
    - setup_consul.sh
    - start_consul_server.sh
