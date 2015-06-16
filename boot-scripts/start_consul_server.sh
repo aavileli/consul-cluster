@@ -11,4 +11,4 @@ fi
 EOF
 chmod +x /opt/start_consul.sh
 
-echo "* * * * * /opt/start_consul.sh" | crontab
+echo "* * * * * /bin/bash /opt/start_consul.sh" | crontab
