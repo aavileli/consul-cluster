@@ -20,7 +20,7 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
             :direction => :egress,
             :protocol => :tcp,
             :ports => ["0..65535"],
-            :cidrs => ${VPN_ACCESS_CIDRS},
+            :cidrs => ${CONSUL_INGRESS_CIDRS},
           }
     ]
 end
