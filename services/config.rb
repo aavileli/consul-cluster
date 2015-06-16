@@ -17,6 +17,12 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
   vpc "${VPC_NAME}"
   allows [ 
           { 
+            :direction => :ingress,
+            :protocol => :tcp,
+            :ports => ["80"],
+            :cidrs => ${CONSUL_INGRESS_CIDRS},
+          },
+          { 
             :direction => :egress,
             :protocol => :tcp,
             :ports => ["0..65535"],
