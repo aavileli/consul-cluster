@@ -11,6 +11,54 @@
 ## end
 ##
 
+coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
+  action :sustain
+  description "load balance the consul ui"
+  vpc "${VPC_NAME}"
+  allows [ 
+          { 
+            :direction => :ingress,
+            :protocol => :tcp,
+            :ports => [1199],
+            :cidrs => ${VPN_ACCESS_CIDRS},
+          },{ 
+            :direction => :egress,
+            :protocol => :tcp,
+            :ports => ["0..65535"],
+            :cidrs => ${VPN_ACCESS_CIDRS},
+          }
+    ]
+end
+
+coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
+  action :sustain
+  type "private"
+  vpc "${VPC_NAME}"
+  subnet "${PRIVATE_SUBNET_NAME}"
+  security_groups ["${CONSUL_SERVER_SG_NAME}-elb"]
+  listeners [
+             {
+               :elb_protocol => 'tcp', 
+               :elb_port => 8500, 
+               :to_protocol => 'tcp', 
+               :to_port => 8500
+             }
+            ]
+  health_check_protocol 'http'
+  health_check_port "8500"
+  health_check_timeout 5
+  health_check_interval 120
+  health_check_unhealthy_threshold 5
+  health_check_healthy_threshold 2
+end
+
+coreo_aws_route53_record "${CONSUL_SERVER_SG_NAME}" do
+  action :sustain
+  type "CNAME"
+  zone "${DNS_ZONE}"
+  values ["STACK::coreo_aws_ec2_elb.${CONSUL_SERVER_SG_NAME}-elb.dns_name"]
+end
+
 coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}" do
   action :sustain
   description "consul server security group"
@@ -95,4 +143,5 @@ coreo_aws_ec2_autoscaling "${CONSUL_NAME}" do
   maximum ${CONSUL_GROUP_SIZE_MAX}
   server_definition "${CONSUL_NAME}"
   subnet "${PRIVATE_SUBNET_NAME}"
+  elbs ["${CONSUL_SERVER_SG_NAME}-elb"]
 end
