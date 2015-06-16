@@ -8,3 +8,4 @@ script-order:
    - install_prereq_packages.sh
    - setup_consul.sh
    - start_consul_server.sh
+   - remove_failed.sh
