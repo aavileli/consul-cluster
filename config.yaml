@@ -8,10 +8,6 @@
 ##     type: string
 
 variables:
-    NGINX_PASSWORD:
-        default: MyP@ssw0rd
-        description: This is the password to your nginx server
-        required: true
     CONSUL_SERVER_SG_NAME:
         default: consul
         description: the consul security group name

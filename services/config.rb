@@ -11,7 +11,7 @@
 ## end
 ##
 
-coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
+coreo_aws_ec2_securityGroups "${CONSUL_NAME}-elb" do
   action :sustain
   description "load balance the consul ui"
   vpc "${VPC_NAME}"
@@ -31,12 +31,12 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}-elb" do
     ]
 end
 
-coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
+coreo_aws_ec2_elb "${CONSUL_NAME}-elb" do
   action :sustain
   type "internal"
   vpc "${VPC_NAME}"
   subnet "${PRIVATE_SUBNET_NAME}"
-  security_groups ["${CONSUL_SERVER_SG_NAME}-elb"]
+  security_groups ["${CONSUL_NAME}-elb"]
   listeners [
              {
                :elb_protocol => 'http', 
@@ -54,14 +54,14 @@ coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
   health_check_healthy_threshold 2
 end
 
-coreo_aws_route53_record "${CONSUL_SERVER_SG_NAME}" do
+coreo_aws_route53_record "${CONSUL_NAME}" do
   action :sustain
   type "CNAME"
   zone "${DNS_ZONE}"
-  values ["STACK::coreo_aws_ec2_elb.${CONSUL_SERVER_SG_NAME}-elb.dns_name"]
+  values ["STACK::coreo_aws_ec2_elb.${CONSUL_NAME}-elb.dns_name"]
 end
 
-coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}" do
+coreo_aws_ec2_securityGroups "${CONSUL_NAME}" do
   action :sustain
   description "consul server security group"
   vpc "${VPC_NAME}"
@@ -70,7 +70,7 @@ coreo_aws_ec2_securityGroups "${CONSUL_SERVER_SG_NAME}" do
             :direction => :ingress,
             :protocol => :tcp,
             :ports => [8500],
-            :groups => ["${CONSUL_SERVER_SG_NAME}-elb"],
+            :groups => ["${CONSUL_NAME}-elb"],
           },
           { 
             :direction => :ingress,
@@ -140,7 +140,7 @@ coreo_aws_ec2_instance "${CONSUL_NAME}" do
   action :define
   image_id "${CONSUL_AMI}"
   size "${CONSUL_SIZE}"
-  security_groups ["${CONSUL_SERVER_SG_NAME}"]
+  security_groups ["${CONSUL_NAME}"]
   role "${CONSUL_NAME}"
   ssh_key "${CONSUL_KEY}"
 end
@@ -151,5 +151,5 @@ coreo_aws_ec2_autoscaling "${CONSUL_NAME}" do
   maximum ${CONSUL_GROUP_SIZE_MAX}
   server_definition "${CONSUL_NAME}"
   subnet "${PRIVATE_SUBNET_NAME}"
-  elbs ["${CONSUL_SERVER_SG_NAME}-elb"]
+  elbs ["${CONSUL_NAME}-elb"]
 end
