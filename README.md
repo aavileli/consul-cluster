@@ -25,36 +25,36 @@ When a failre even takes place, the Autoscaling group will replace the failed no
   * description: the route53 dns zone to add the consul entry to.
 
 ## OVERRIDE OPTIONAL VARIABLES
-### CONSUL_INGRESS_CIDRS:
+### `CONSUL_INGRESS_CIDRS`:
   * default:
     * 10.11.0.0/16
   * description: cidrs that can access the consul server
   * type: array
   * required: true
-### CONSUL_NAME:
+### `CONSUL_NAME`:
   * default: consul
   * description: name of the consul server
   * required: true
-### CONSUL_AMI:
+### `CONSUL_AMI`:
   * default: ami-1ecae776
   * description: the ami to launch for consul - default is Amazon Linux AMI 2015.03 (HVM), SSD Volume Type
   * type: string
   * required: true
-### CONSUL_SIZE:
+### `CONSUL_SIZE`:
   * default: t2.small
   * description: the image size to launch
   * required: true
-### CONSUL_KEY:
+### `CONSUL_KEY`:
   * default: ""
   * description: the ssh key to associate with the instance(s) - blank will disable ssh
   * type: string
   * required: false
-### CONSUL_GROUP_SIZE_MIN:
+### `CONSUL_GROUP_SIZE_MIN`:
   * default: 3
   * description: the minimum number of instances to launch
   * type: number
   * required: true
-### CONSUL_GROUP_SIZE_MAX:
+### `CONSUL_GROUP_SIZE_MAX`:
   * default: 5
   * description: the maxmium number of instances to launch
   * type: number
