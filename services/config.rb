@@ -47,8 +47,8 @@ coreo_aws_ec2_elb "${CONSUL_SERVER_SG_NAME}-elb" do
   health_check_protocol 'http'
   health_check_path "/ui"
   health_check_port "8500"
-  health_check_timeout 5
-  health_check_interval 30
+  health_check_timeout 10
+  health_check_interval 60
   health_check_unhealthy_threshold 5
   health_check_healthy_threshold 2
 end
