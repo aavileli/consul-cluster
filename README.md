@@ -20,7 +20,7 @@ This is a private ELB so you can only access via VPN or bastion depending on how
 When a failre even takes place, the Autoscaling group will replace the failed node. The addition of a new node triggers a clean up process approximately 60 seconds after boot is complete.
 
 ## REQUIRED VARIABLES
-### DNS_ZONE:
+### `DNS_ZONE`:
   * required: true
   * description: the route53 dns zone to add the consul entry to.
 
