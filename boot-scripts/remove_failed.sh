@@ -22,8 +22,8 @@ cat <<"EOF" >> "$script"
 for node in $failed_consul_nodes; do
     ## if they are still failed, kill them
     failed_node_name="$(/bin/consul members | grep $node | grep failed | awk '{print $1}')"
-    if [ -n "$failed_node_address" ]; then
-        /bin/consul force-leave "$failed_node_address"
+    if [ -n "$failed_node_name" ]; then
+        /bin/consul force-leave "$failed_node_name"
     fi
 done
 EOF
