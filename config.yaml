@@ -23,10 +23,19 @@ variables:
         description: name of the consul server
         required: true
     CONSUL_AMI:
-        default: ami-1ecae776
         description: the ami to launch for consul - default is Amazon Linux AMI 2015.03 (HVM), SSD Volume Type
-        type: string
-        required: true
+        switch: INSTANCE::region
+        cases:
+            us-east-1: ami-1ecae776
+            us-west-1: ami-d114f295
+            us-west-2: ami-e7527ed7
+            eu-west-1: ami-a10897d6
+            eu-central-1: ami-a8221fb5
+            ap-southeast-1: ami-68d8e93a
+            ap-northeast-1: ami-cbf90ecb
+            ap-southeast-2: ami-fd9cecc7
+            sa-east-1: ami-b52890a8
+        type: case
     CONSUL_SIZE:
         default: t2.small
         description: the image size to launch
